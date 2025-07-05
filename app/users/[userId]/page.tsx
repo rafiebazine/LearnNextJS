@@ -1,29 +1,28 @@
 import { notFound } from "next/navigation";
+import { use } from "react";
 
-async function fetchUser(id:string) {
-    const res = await fetch(`https://jsonplaceholder.typicode.com/users/${id}`);
-    if (! res.ok) {
-        return null;
-    }
-    const user = await res.json();
-    return user;
-}
-
-
-
-
-export default async function UserPage({
-  params,
+export default async function userPage({
+    params,
 }: {
-  params: Promise<{ userId: string }>;
+    params: Promise<{ userId: string }>;
 }) {
     const {userId} = await params;
-    const user = await fetchUser(userId);
+    
+    
+    const res = await fetch(`https://jsonplaceholder.typicode.com/users/${userId}`);
+    const user = await res.json();
+    
     if(!user){
         notFound();
     }
-  return (
-    
-    <h1>{user.name}</h1>
-  );
+
+
+    return (
+        <div>
+        <div>users page</div>
+        <h1>Name: {user.name}</h1>
+        <h1>Email: {user.email}</h1>
+        <h1>Phone: {user.phone}</h1>
+        </div>
+    )
 }
